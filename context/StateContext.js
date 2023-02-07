@@ -1,9 +1,9 @@
-import React, {createContext, useContext, useState, useEffect} from 'react';
-import {toast} from 'react-hot-toast';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 
 const Context = createContext();
 
-export const StateContext = ({children}) => {
+export const StateContext = ({ children }) => {
     const [showCart, setShowCart] = useState(false);
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
@@ -31,9 +31,9 @@ export const StateContext = ({children}) => {
         } else {
             product.quantity = quantity;
 
-            setCartItems([...cartItems, {...product}]);
+            setCartItems([...cartItems, { ...product}]);
         }
-        toast.success(`${qty} ${product.nam} added to cart.`);
+        toast.success(`${qty} ${product.name} added to cart.`);
     }
 
     const onRemove = (product) => {
@@ -51,12 +51,12 @@ export const StateContext = ({children}) => {
         const newCartItems = cartItems.filter((item) => item._id !== id);
 
         if (value === 'inc') {
-            setCartItems([...newCartItems, {...foundProduct, quantity: foundProduct.quantity + 1}]);
+            setCartItems([...newCartItems, { ...foundProduct, quantity: foundProduct.quantity + 1 }]);
             setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price);
             setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + 1);
         }else if (value === 'dec') {
             if (foundProduct.quantity > 1) {
-                setCartItems([...newCartItems, {...foundProduct, quantity: foundProduct.quantity - 1}]);
+                setCartItems([...newCartItems, { ...foundProduct, quantity: foundProduct.quantity - 1 }]);
                 setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price);
                 setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - 1);
             }
@@ -77,7 +77,7 @@ export const StateContext = ({children}) => {
 
     return (
         <Context.Provider value={{showCart, setShowCart, cartItems, totalPrice, totalQuantities, qty,
-        incQty, decQty, onAdd, toggleCartItemQuantity, onRemove}}>
+        incQty, decQty, onAdd, toggleCartItemQuantity, onRemove, setCartItems, setTotalPrice, setTotalQuantities}}>
             {children}
         </Context.Provider>
     )
